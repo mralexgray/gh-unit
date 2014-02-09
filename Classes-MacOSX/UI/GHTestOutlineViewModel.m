@@ -31,26 +31,21 @@
 	return (!item) ? (self ? 1 : 0) : [[item children] count];
 }
 
-- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
-	if (!item) return nil;
-	
-	if (tableColumn == nil) {
-		return [item nameWithStatus];
-	} else if ([[tableColumn identifier] isEqual:@"status"] && ![item hasChildren]) {
-		return [item statusString];
-	}
-	return nil;
+- (id) outlineView:(NSOutlineView*)ov objectValueForTableColumn:(NSTableColumn*)tc byItem:(id)item {
+
+  return  !item ? nil :
+            !tc ? [item nameWithStatus]  :
+          [tc.identifier isEqual:@"status"] && ![item hasChildren] ? [item statusString] : nil;
 }
 
 - (void)outlineView:(NSOutlineView *)outlineView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {	
-	if (self.isEditing) {
-		if ([[tableColumn identifier] isEqual:@"name"]) {
+
+	if (self.editing && [tableColumn.identifier isEqualToString:@"name"]) {
 			[item setSelected:[object boolValue]];		
 			[outlineView reloadData];
 		}	
-	}
 }
-
+/*
 - (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item {
 	
 	GHTestNode *test = (GHTestNode *)item;
@@ -159,5 +154,5 @@
 	NSUInteger hitTestResult = [cell hitTestForEvent:[NSApp currentEvent] inRect:cellFrame ofView:outlineView];
 	return hitTestResult && NSCellHitTrackableArea != 0;
 }
-
+*/
 @end

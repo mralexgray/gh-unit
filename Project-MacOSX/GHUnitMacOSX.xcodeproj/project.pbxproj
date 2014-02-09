@@ -80,6 +80,7 @@
 		0083D1A613C28B8700F71F21 /* GTMDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 0083D19B13C28B8700F71F21 /* GTMDefines.h */; };
 		0083D1A913C28BE900F71F21 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0083D1A813C28BE900F71F21 /* SenTestingKit.framework */; };
 		0083D1AA13C28BFA00F71F21 /* SenTestingKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0083D1A813C28BE900F71F21 /* SenTestingKit.framework */; };
+		7BE05D1818A817B600047228 /* BundleRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BE05D1718A817B600047228 /* BundleRunner.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -188,6 +189,7 @@
 		0083D19B13C28B8700F71F21 /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
 		0083D1A813C28BE900F71F21 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		0090D62F13C299B500C25A92 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		7BE05D1718A817B600047228 /* BundleRunner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BundleRunner.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -319,6 +321,7 @@
 		0083D0DB13BCFE1700F71F21 /* Classes-MacOSX */ = {
 			isa = PBXGroup;
 			children = (
+				7BE05D1718A817B600047228 /* BundleRunner.m */,
 				0083D0DC13BCFE1700F71F21 /* GHUnitTestMain.m */,
 				0083D0DD13BCFE1700F71F21 /* UI */,
 			);
@@ -495,9 +498,9 @@
 			productReference = 0083D08613BCFDDB00F71F21 /* GHUnit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		0083D13113BCFFA400F71F21 /* Tests */ = {
+		0083D13113BCFFA400F71F21 /* GHUnitTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0083D14713BCFFA400F71F21 /* Build configuration list for PBXNativeTarget "Tests" */;
+			buildConfigurationList = 0083D14713BCFFA400F71F21 /* Build configuration list for PBXNativeTarget "GHUnitTests" */;
 			buildPhases = (
 				0083D12E13BCFFA400F71F21 /* Sources */,
 				0083D12F13BCFFA400F71F21 /* Frameworks */,
@@ -510,7 +513,7 @@
 			dependencies = (
 				0083D1AC13C28C4400F71F21 /* PBXTargetDependency */,
 			);
-			name = Tests;
+			name = GHUnitTests;
 			productName = Tests;
 			productReference = 0083D13213BCFFA400F71F21 /* Tests.app */;
 			productType = "com.apple.product-type.application";
@@ -536,7 +539,7 @@
 			projectRoot = "";
 			targets = (
 				0083D08513BCFDDB00F71F21 /* GHUnit */,
-				0083D13113BCFFA400F71F21 /* Tests */,
+				0083D13113BCFFA400F71F21 /* GHUnitTests */,
 			);
 		};
 /* End PBXProject section */
@@ -604,6 +607,7 @@
 				0083D11313BCFE1700F71F21 /* GHTestOutlineViewModel.m in Sources */,
 				0083D11713BCFE1700F71F21 /* GHTestViewController.m in Sources */,
 				0083D11A13BCFE1700F71F21 /* GHTestWindowController.m in Sources */,
+				7BE05D1818A817B600047228 /* BundleRunner.m in Sources */,
 				0083D1A313C28B8700F71F21 /* GTMObjC2Runtime.m in Sources */,
 				004E187013C518C1007D842B /* GTMNSString+XML.m in Sources */,
 			);
@@ -699,7 +703,6 @@
 				GCC_WARN_UNUSED_VALUE = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				INFOPLIST_FILE = "GHUnitMacOSX/GHUnitMacOSX-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.6.8;
 				PRODUCT_NAME = GHUnit;
 				WRAPPER_EXTENSION = framework;
@@ -718,7 +721,6 @@
 				GCC_WARN_UNUSED_VALUE = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				INFOPLIST_FILE = "GHUnitMacOSX/GHUnitMacOSX-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.6.8;
 				PRODUCT_NAME = GHUnit;
 				WRAPPER_EXTENSION = framework;
@@ -798,7 +800,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0083D14713BCFFA400F71F21 /* Build configuration list for PBXNativeTarget "Tests" */ = {
+		0083D14713BCFFA400F71F21 /* Build configuration list for PBXNativeTarget "GHUnitTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0083D14813BCFFA400F71F21 /* Debug */,

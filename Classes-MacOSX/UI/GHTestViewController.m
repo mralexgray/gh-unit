@@ -64,7 +64,7 @@ suite=suite_, 			running=running_, 					exceptionFilename=exceptionFilename_;
 - (IBAction)runTests:(id)sender { [self runTests]; }
 
 - (void)runTests {
-	if (dataSource_.isRunning) {
+	if (dataSource_.running) {
 		self.status = @"Cancelling...";
 		[dataSource_ cancel];
 	} else {
@@ -309,7 +309,7 @@ suite=suite_, 			running=running_, 					exceptionFilename=exceptionFilename_;
 	
 	NSInteger runCount = [suite_ stats].succeedCount + [suite_ stats].failureCount;
 	NSInteger totalRunCount = [suite_ stats].testCount - ([suite_ disabledCount] + [suite_ stats].cancelCount);
-	if (dataSource_.isRunning)
+	if (dataSource_.running)
 		self.statusProgress = ((double)runCount/(double)totalRunCount) * 100.0;
 	self.status = [dataSource_ statusString:@"Status: "];
 }

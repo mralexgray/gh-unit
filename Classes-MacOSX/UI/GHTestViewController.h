@@ -1,54 +1,48 @@
-//
-//  GHTestViewController.h
-//  GHKit
-//
 
 #import "GHTestViewModel.h"
 #import "GHTestGroup.h"
-#import "GHTestOutlineViewModel.h"
+#import "GHTestOutlineViewModel.h" 
 
+@interface GHTestViewController : NSViewController <GHTestRunnerDelegate, GHTestOutlineViewModelDelegate, NSSplitViewDelegate>
 
-@interface GHTestViewController : NSViewController 
-											<GHTestRunnerDelegate, GHTestOutlineViewModelDelegate, NSSplitViewDelegate> 
-{
-	IBOutlet NSSplitView *_splitView;
-	IBOutlet NSView *_statusView, *_detailsView;
-	IBOutlet NSOutlineView *_outlineView;
-	IBOutlet NSTextView *_textView;
-	IBOutlet NSSegmentedControl *_textSegmentedControl, *_segmentedControl;
-	IBOutlet NSSearchField *_searchField;
-	IBOutlet NSButton *_detailsToggleButton;
-}
-@property (nonatomic) 						 BOOL   wrapInTextView,
-															  reraiseExceptions,
-															  runInParallel;
-@property (nonatomic, getter=isRunning) BOOL   running;
-@property  (readonly) 				 id<GHTest>   selectedTest;
-@property  (readonly) GHTestOutlineViewModel * dataSource;
-@property (nonatomic) 			   GHTestSuite * suite;
-@property (nonatomic) 				   NSString * status, *runLabel, *exceptionFilename;
-@property (nonatomic) 					  double   statusProgress;
-@property (nonatomic) 				  NSInteger   exceptionLineNumber;
+@property (assign) IBOutlet        NSSplitView * splitView;
+@property (assign) IBOutlet             NSView * statusView,
+                                               * detailsView;
+@property (assign) IBOutlet      NSOutlineView * outlineView;
+@property (assign) IBOutlet         NSTextView * textView;
+@property (assign) IBOutlet NSSegmentedControl * textSegmentedControl,
+                                               * segmentedControl;
+@property (assign) IBOutlet      NSSearchField * searchField;
+@property (assign) IBOutlet           NSButton * detailsToggleButton;
 
+@property  (readonly)   GHTestOutlineViewModel * dataSource;
+@property  (readonly) 	  			    id<GHTest>   selectedTest;
+@property  (readonly)                     BOOL   showingDetails;
+@property (nonatomic) 			  		      double   statusProgress;
+@property (nonatomic) 				       NSInteger   exceptionLineNumber;
+@property (nonatomic)                     BOOL   wrapInTextView,
+                                                 reraiseExceptions,
+                                                 runInParallel,
+                                                 running;
+@property (nonatomic) 			       GHTestSuite * suite;
+@property (nonatomic) 				        NSString * status,
+                                               * runLabel,
+                                               * exceptionFilename;
 
-
-- 	  	  (void) selectRow:					(NSInteger)row;
--   (IBAction) copy:							(id)sender;
--   (IBAction) runTests:					(id)sender;
--   (IBAction) toggleDetails:				(id)sender;
--   (IBAction) updateTextSegment:		(id)sender;
--   (IBAction) updateMode:					(id)sender;
--   (IBAction) updateSearchFilter:		(id)sender;
--   (IBAction) openExceptionFilename:	(id)sender;
-- 	 (IBAction) rerunTest:					(id)sender;
-- (id<GHTest>) selectedTest;
+-    	  (void) selectRow:             (NSInteger)row;
+-   (IBAction) copy:                  (id)x;
+-   (IBAction) runTests:              (id)x;
+-   (IBAction) toggleDetails:         (id)x;
+-   (IBAction) updateTextSegment:     (id)x;
+-   (IBAction) updateMode:            (id)x;
+-   (IBAction) updateSearchFilter:		(id)x;
+-   (IBAction) openExceptionFilename:	(id)x;
+- 	(IBAction) rerunTest:             (id)x;
 -       (void) loadTestSuite;
 - 		  (void) selectFirstFailure;
--  	  (void) runTests;
--		  (void) reload;
-- 	  	  (void) loadDefaults;
-- 	  	  (void) saveDefaults;
-- 	  	  (BOOL) isShowingDetails;
-
+-  	    (void) runTests;
+-		    (void) reload;
+- 	    (void) loadDefaults;
+- 	    (void) saveDefaults;
 
 @end

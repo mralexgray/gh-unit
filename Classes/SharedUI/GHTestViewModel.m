@@ -1,84 +1,49 @@
-//
-//  GHTestViewModel.m
-//  GHUnit
-//
-//  Created by Gabriel Handford on 1/17/09.
-//  Copyright 2009. All rights reserved.
-//
-//  Permission is hereby granted, free of charge, to any person
-//  obtaining a copy of this software and associated documentation
-//  files (the "Software"), to deal in the Software without
-//  restriction, including without limitation the rights to use,
-//  copy, modify, merge, publish, distribute, sublicense, and/or sell
-//  copies of the Software, and to permit persons to whom the
-//  Software is furnished to do so, subject to the following
-//  conditions:
-//
-//  The above copyright notice and this permission notice shall be
-//  included in all copies or substantial portions of the Software.
-//
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-//  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-//  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-//  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-//  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-//  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-//  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-//  OTHER DEALINGS IN THE SOFTWARE.
-//
-
-//! @cond DEV
 
 #import "GHTestViewModel.h"
 #import "GHTesting.h"
 
-@implementation GHTestViewModel
-
-@synthesize root=root_, editing=editing_;
+@implementation GHTestViewModel // @synthesize root=root_, editing=editing_;
+{
+//	GHTestSuite *suite_;	GHTestNode *root_;	GHTestRunner *runner_;
+	NSMutableDictionary *_map, *_defaults; // id<GHTest>#identifier -> GHTestNode
+  NSString *_identifier;
+//	BOOL editing_;
+}
 
 - (id)initWithIdentifier:(NSString *)identifier suite:(GHTestSuite *)suite {
-	if ((self = [super init])) {		
-    identifier_ = identifier;
-		suite_ = suite;				
-		root_ = [[GHTestNode alloc] initWithTest:suite_ children:[suite_ children] source:self];
-		map_ = [NSMutableDictionary dictionary];		
-	}
+
+	if (!(self = [super init])) return nil;
+  _identifier = identifier;
+  _root = [GHTestNode.alloc initWithTest:_suite = suite children:self.suite.children source:self];
+  _map = NSMutableDictionary.new;
 	return self;
 }
 
 - (void)dealloc {
 	// Clear delegates
-	for(NSString *identifier in map_) 
-		[map_[identifier] setDelegate:nil];
-	
-  [runner_ cancel];
-  runner_.delegate = nil;
+	for(NSString *identifier in _map) [_map[identifier] setDelegate:nil];
+
+  [_runner cancel];
+  _runner.delegate = nil;
   
 }
 
-- (NSString *)name {
-	return [root_ name];
-}
+- (NSString *)name { return _root.name; }
 
 - (NSString *)statusString:(NSString *)prefix {
-	NSInteger totalRunCount = [suite_ stats].testCount - ([suite_ disabledCount] + [suite_ stats].cancelCount);
-	NSString *statusInterval = [NSString stringWithFormat:@"%@ %0.3fs (%0.3fs in test time)", (self.isRunning ? @"Running" : @"Took"), runner_.interval, [suite_ interval]];
-	return [NSString stringWithFormat:@"%@%@ %ld/%ld (%ld failures)", prefix, statusInterval,
-					[suite_ stats].succeedCount, totalRunCount, [suite_ stats].failureCount];
+
+	NSInteger totalRunCount = _suite.stats.testCount - (_suite.disabledCount + _suite.stats.cancelCount);
+	NSString *statusInterval = [NSString stringWithFormat:@"%@ %0.3fs (%0.3fs in test time)", self.running ? @"Running" : @"Took", _runner.interval,_suite.interval];
+	return [NSString stringWithFormat:@"%@%@ %ld/%ld (%ld failures)", prefix, statusInterval, _suite.stats.succeedCount, totalRunCount, _suite.stats.failureCount];
 }
 
-- (void)registerNode:(GHTestNode *)node {
-	map_[node.identifier] = node;
-	node.delegate = self;
-}
+- (void)registerNode:(GHTestNode *)node { _map[node.identifier] = node; node.delegate = self; }
 
 - (GHTestNode *)findTestNodeForTest:(id<GHTest>)test {
-	return map_[[test identifier]];
+	return _map[test.identifier];
 }
 
-- (GHTestNode *)findFailure {
-	return [self findFailureFromNode:root_];
-}
+- (GHTestNode *)findFailure {	return [self findFailureFromNode:_root];   }
 
 - (GHTestNode *)findFailureFromNode:(GHTestNode *)node {
 	if (node.failed && [node.test exception]) return node;
@@ -89,12 +54,10 @@
 	return nil;
 }
 
-- (NSInteger)numberOfGroups {
-	return [[root_ children] count];
-}
+- (NSInteger)numberOfGroups { return _root.children.count; }
 
 - (NSInteger)numberOfTestsInGroup:(NSInteger)group {
-	NSArray *children = [root_ children];
+	NSArray *children = _root.children;
 	if ([children count] == 0) return 0;
 	GHTestNode *groupNode = children[group];
 	return [[groupNode children] count];
@@ -102,7 +65,7 @@
 
 - (NSIndexPath *)indexPathToTest:(id<GHTest>)test {
 	NSInteger section = 0;
-	for(GHTestNode *node in [root_ children]) {
+	for(GHTestNode *node in _root.children) {
 		NSInteger row = 0;		
 		if ([node.test isEqual:test]) {
 			NSUInteger pathIndexes[] = {section,row};
@@ -122,17 +85,18 @@
 
 - (void)testNodeDidChange:(GHTestNode *)node { }
 
-- (NSString *)_defaultsPath {
+- (NSString*) defaultsPath { if (_defaultsPath) return _defaultsPath;
+
   NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
   if ([paths count] == 0) return nil;
-  NSString *identifier = identifier_;
+  NSString *identifier = _identifier;
   if (!identifier) identifier = @"Tests";
-  return [paths[0] stringByAppendingPathComponent:[NSString stringWithFormat:@"GHUnit-%@.tests", identifier]];
+  return _defaultsPath = [paths[0] stringByAppendingPathComponent:[NSString stringWithFormat:@"GHUnit-%@.tests", identifier]];
 }
 
 - (void)_updateTestNodeWithDefaults:(GHTestNode *)node {
   id<GHTest> test = node.test;
-  id<GHTest> testDefault = defaults_[test.identifier];
+  id<GHTest> testDefault = _defaults[test.identifier];
   if (testDefault) {    
     test.status = testDefault.status;
     test.interval = testDefault.interval;
@@ -146,49 +110,41 @@
 }
 
 - (void)_saveTestNodeToDefaults:(GHTestNode *)node {
-  defaults_[node.test.identifier] = node.test;
+  _defaults[node.test.identifier] = node.test;
   for(GHTestNode *childNode in [node children])
     [self _saveTestNodeToDefaults:childNode];
 }
 
 - (void)loadDefaults {  
-  if (!defaults_) {
-    NSString *path = [self _defaultsPath];
-    if (path) defaults_ = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
-  }
-  if (!defaults_) defaults_ = [NSMutableDictionary dictionary];    
-  [self _updateTestNodeWithDefaults:root_];
+
+  _defaults = _defaults ?: self.defaultsPath ? [NSKeyedUnarchiver unarchiveObjectWithFile:_defaultsPath] : NSMutableDictionary.dictionary;
+
+  [self _updateTestNodeWithDefaults:_root];
 }
 
-- (void)saveDefaults {
-  NSString *path = [self _defaultsPath];
-  if (!path || !defaults_) return;
+- (void) saveDefaults {
+
+  if (!self.defaultsPath || !_defaults) return;
   
-  [self _saveTestNodeToDefaults:root_];
-  [NSKeyedArchiver archiveRootObject:defaults_ toFile:path];
+  [self _saveTestNodeToDefaults:_root];
+  [NSKeyedArchiver archiveRootObject:_defaults toFile:self.defaultsPath];
 }
 
-- (void)cancel {	
-	[runner_ cancel];
-}
+- (void)cancel {	 [_runner cancel]; }
 
 - (void)run:(id<GHTestRunnerDelegate>)delegate inParallel:(BOOL)inParallel options:(GHTestOptions)options {  
   // Reset (non-disabled) tests so we don't clear non-filtered tests status; in case we re-filter and they become visible
-  for(id<GHTest> test in [suite_ children])
-    if (!test.disabled) [test reset];
+  for(id<GHTest> test in _suite.children)  if (!test.disabled) [test reset];
   
-  if (!runner_) {
-    runner_ = [GHTestRunner runnerForSuite:suite_];
-  }
-  runner_.delegate = delegate;
-  runner_.options = options;
-  [runner_ setInParallel:inParallel];
-	[runner_ runInBackground];
+  _runner = _runner ?: [GHTestRunner runnerForSuite:_suite];
+
+  _runner.delegate = delegate;
+  _runner.options = options;
+  [_runner setInParallel:inParallel];
+	[_runner runInBackground];
 }
 
-- (BOOL)isRunning {
-	return runner_.isRunning;
-}
+- (BOOL)running { return _runner.isRunning; }
 
 @end
 
@@ -404,3 +360,35 @@
 @end
 
 //! @endcond
+
+
+//
+//  GHTestViewModel.m
+//  GHUnit
+//
+//  Created by Gabriel Handford on 1/17/09.
+//  Copyright 2009. All rights reserved.
+//
+//  Permission is hereby granted, free of charge, to any person
+//  obtaining a copy of this software and associated documentation
+//  files (the "Software"), to deal in the Software without
+//  restriction, including without limitation the rights to use,
+//  copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the
+//  Software is furnished to do so, subject to the following
+//  conditions:
+//
+//  The above copyright notice and this permission notice shall be
+//  included in all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+//  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+//  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+//  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+//  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+//  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+//  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+//  OTHER DEALINGS IN THE SOFTWARE.
+//
+
+//! @cond DEV

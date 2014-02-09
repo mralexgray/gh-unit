@@ -8,17 +8,16 @@
 
 #import "GHTestApp.h"
 
-@implementation GHTestApp
+@implementation GHTestApp  { NSMutableArray *topLevelObjects_; GHTestWindowController *windowController_; GHTestSuite *suite_; }
+
 
 - (id)init { return  self = super.init ?	windowController_ = GHTestWindowController.new,
 
-	[[NSBundle bundleForClass:self.class] 
-					  loadNibFile:@"GHTestApp"
-			  externalNameTable:[NSDictionary dictionaryWithObjectsAndKeys:
-																					self, @"NSOwner",		
-											topLevelObjects_ = @[].mutableCopy, @"NSTopLevelObjects", nil]
-				        withZone:nil], 
-	self : nil;
+	[[NSBundle bundleForClass:self.class] loadNibFile:@"GHTestApp"
+                                  externalNameTable:  @{  @"NSOwner": self,
+                                                          @"NSTopLevelObjects":topLevelObjects_ = @[].mutableCopy}
+                                           withZone:nil],
+                                              self : nil;
 }
 
 // Since init loads XIB we need to set suite early; For backwards compat.
@@ -27,9 +26,9 @@
 - (void)awakeFromNib { 
 
 	[NSNotificationCenter.defaultCenter addObserver:self 
-														selector:@selector(applicationWillTerminate:)
-															 name:NSApplicationWillTerminateNotification 
-														  object:nil];
+														             selector:@selector(applicationWillTerminate:)
+															               name:NSApplicationWillTerminateNotification
+														               object:nil];
 
 	windowController_.viewController.suite = suite_;
 	[windowController_ showWindow:nil];

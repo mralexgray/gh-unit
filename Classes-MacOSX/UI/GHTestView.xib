@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4510" systemVersion="13A598" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment version="1070" defaultVersion="1060" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="GHTestViewController">
@@ -43,8 +43,8 @@
                                         <string key="NSValueTransformerName">NSNegateBoolean</string>
                                         <integer key="NSNotApplicablePlaceholder" value="-1"/>
                                         <integer key="NSNoSelectionPlaceholder" value="-1"/>
-                                        <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                                         <integer key="NSNullPlaceholder" value="-1"/>
+                                        <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                                     </dictionary>
                                 </binding>
                                 <binding destination="-2" name="value" keyPath="runInParallel" id="216"/>
@@ -139,6 +139,9 @@
                                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                 </textFieldCell>
+                                                                <connections>
+                                                                    <binding destination="vrZ-NO-ziL" name="value" keyPath="objectValue" id="szj-71-s7p"/>
+                                                                </connections>
                                                             </textField>
                                                         </subviews>
                                                         <connections>
@@ -171,6 +174,9 @@
                                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                 </textFieldCell>
+                                                                <connections>
+                                                                    <binding destination="BHc-ZM-Cpd" name="value" keyPath="objectValue" id="jpn-NF-tHk"/>
+                                                                </connections>
                                                             </textField>
                                                         </subviews>
                                                         <connections>
@@ -184,11 +190,11 @@
                                 </subviews>
                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                             </clipView>
-                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" id="10">
+                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="10">
                                 <rect key="frame" x="1" y="284" width="215" height="15"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </scroller>
-                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" id="11">
+                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="11">
                                 <rect key="frame" x="66" y="0.0" width="15" height="-15"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </scroller>
@@ -347,11 +353,11 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </clipView>
-                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="0.33333331346511841" id="56">
+                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="0.33333331346511841" horizontal="YES" id="56">
                                 <rect key="frame" x="-100" y="-100" width="302" height="15"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </scroller>
-                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" id="55">
+                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="55">
                                 <rect key="frame" x="-100" y="-100" width="15" height="297"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </scroller>

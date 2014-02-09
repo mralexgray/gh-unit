@@ -1,70 +1,24 @@
-//
-//  GHTest.h
-//  GHUnit
-//
-//  Created by Gabriel Handford on 1/17/09.
-//  Copyright 2009. All rights reserved.
-//
-//  Permission is hereby granted, free of charge, to any person
-//  obtaining a copy of this software and associated documentation
-//  files (the "Software"), to deal in the Software without
-//  restriction, including without limitation the rights to use,
-//  copy, modify, merge, publish, distribute, sublicense, and/or sell
-//  copies of the Software, and to permit persons to whom the
-//  Software is furnished to do so, subject to the following
-//  conditions:
-//
-//  The above copyright notice and this permission notice shall be
-//  included in all copies or substantial portions of the Software.
-//
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-//  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-//  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-//  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-//  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-//  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-//  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-//  OTHER DEALINGS IN THE SOFTWARE.
-//
-
-//! @cond DEV
 
 #import "GHTestGroup.h"
 #import "GHTestSuite.h"
 #import "GHTestRunner.h"
 
 @class GHTestNode;
+@protocol GHTestNodeDelegate <NSObject> - (void) testNodeDidChange:(GHTestNode*)node; @end
 
-@protocol GHTestNodeDelegate <NSObject>
-- (void)testNodeDidChange:(GHTestNode *)node;
-@end
-
-typedef enum {
-  GHTestNodeFilterNone = 0,
-  GHTestNodeFilterFailed = 1
-} GHTestNodeFilter;
+typedef NS_ENUM(NSUInteger, GHTestNodeFilter) { GHTestNodeFilterNone, GHTestNodeFilterFailed };
 
 /*!
  Test view model for use in a tree view.
  */
-@interface GHTestViewModel : NSObject <GHTestNodeDelegate> {
-	
-  NSString *identifier_;
-	GHTestSuite *suite_;
-	GHTestNode *root_;
-	
-	GHTestRunner *runner_;
-	
-	NSMutableDictionary *map_; // id<GHTest>#identifier -> GHTestNode
+@interface GHTestViewModel : NSObject <GHTestNodeDelegate>
 
-	BOOL editing_;
+@property (readonly) GHTestRunner *runner;
+@property (readonly) GHTestSuite *suite;
+@property (readonly) GHTestNode *root;
+@property (nonatomic) BOOL editing, running;
 
-	NSMutableDictionary *defaults_;
-}
-
-@property (readonly, nonatomic) GHTestNode *root;
-@property (assign, nonatomic, getter=isEditing) BOOL editing;
-
+@property (nonatomic) NSString *defaultsPath;
 /*!
  Create view model with root test group node.
 
@@ -76,7 +30,7 @@ typedef enum {
 /*!
  @result Name of test suite.
  */
-- (NSString *)name;
+@property (readonly) NSString *name;
 
 /*!
  Status description.
@@ -84,7 +38,7 @@ typedef enum {
  @param prefix Prefix to append
  @result Current status string
  */
-- (NSString *)statusString:(NSString *)prefix;
+- (NSString*)statusString:(NSString*)prefix;
 
 /*!
  Find the test node from the test.
@@ -98,7 +52,7 @@ typedef enum {
 
  @result The first failure
  */
-- (GHTestNode *)findFailure;
+@property (readonly) GHTestNode* findFailure;
 
 /*!
  Find the next failure starting from node.
@@ -117,7 +71,7 @@ typedef enum {
 /*!
  @result Returns the number of test groups.
  */
-- (NSInteger)numberOfGroups;
+@property (readonly) NSInteger numberOfGroups;
 
 /*!
  Returns the number of tests in group.
@@ -162,7 +116,7 @@ typedef enum {
 
  @result YES if running.
  */
-- (BOOL)isRunning;
+//- (BOOL)isRunning;
 
 @end
 
@@ -216,3 +170,35 @@ typedef enum {
 @end
 
 //! @endcond
+
+
+//
+//  GHTest.h
+//  GHUnit
+//
+//  Created by Gabriel Handford on 1/17/09.
+//  Copyright 2009. All rights reserved.
+//
+//  Permission is hereby granted, free of charge, to any person
+//  obtaining a copy of this software and associated documentation
+//  files (the "Software"), to deal in the Software without
+//  restriction, including without limitation the rights to use,
+//  copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the
+//  Software is furnished to do so, subject to the following
+//  conditions:
+//
+//  The above copyright notice and this permission notice shall be
+//  included in all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+//  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+//  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+//  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+//  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+//  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+//  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+//  OTHER DEALINGS IN THE SOFTWARE.
+//
+
+//! @cond DEV
